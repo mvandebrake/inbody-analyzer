@@ -73,6 +73,14 @@ analyzeBtn.onclick = async function() {
     });
 
     const data = await response.json();
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+    if (!data.metrics) {
+      throw new Error('No metrics returned. Raw response: ' + JSON.stringify(data).substring(0, 200));
+    }
+
     extractedMetrics = data.metrics;
     displayMetrics();
     loading.style.display = 'none';
